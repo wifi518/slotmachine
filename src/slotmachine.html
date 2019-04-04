@@ -6,7 +6,8 @@
     <style></style>
     <script src="script/vendor/jquery-3.3.1.min.js"></script>
     <script>
-var Slot = function() {
+var Slot = function( ende ) {
+  this.ende = ende;
   this.img = $( '<i>' )
       .css({
         display:'inline-block',
@@ -19,24 +20,48 @@ var Slot = function() {
   this.bgposX = 0;
   this.bgposY = 0;
   this.timeout;
-  this.timer = 10;
+  this.timer = 100;
+  this.random = Math.floor( Math.random() * 15 ) * 2 + 20;
+  this.counter = 0;
+
 }
 Slot.prototype.run = function() {
   clearTimeout( this.timeout );
-  if ( this.timer > 250 ) return;
+  this.counter++;
+  if ( this.counter > this.random ) {
+    this.ende();
+    return;
+  }
   this.bgposX -= 68.5;
   if ( this.bgposX < -412 ) {
     this.bgposX = 0;
     this.bgposY -= 200;
   }
   this.img.css({backgroundPosition:this.bgposX+'px '+this.bgposY+'px'});
-  this.timeout = setTimeout( this.run.bind(this), this.timer+=5 );
+  this.timeout = setTimeout( this.run.bind(this), this.timer );
 }
 var slot1, slot2, slot3;
+var gestoppteSlots = 0;
+var element = ['K','B','G','K','K','M','S'];
+var isEnde = function() {
+  gestoppteSlots++;
+  if ( gestoppteSlots == 3 ) {
+    slot1.end = element[slot1.random%14/2];
+    slot2.end = element[slot2.random%14/2];
+    slot3.end = element[slot3.random%14/2];
+
+    if ( slot1.end == slot2.end && slot2.end == slot3.end ) {
+      alert( 'SUPER!')
+    }
+
+  }
+  
+}
+
 $( document ).ready( function() {
-   slot1 = new Slot();
-   slot2 = new Slot();
-   slot3 = new Slot();
+   slot1 = new Slot( isEnde );
+   slot2 = new Slot( isEnde );
+   slot3 = new Slot( isEnde );
 
 });
 
