@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>JS Slotmachine</title>
+    <style></style>
+    <script src="script/vendor/jquery-3.3.1.min.js"></script>
+    <script>
+
+var Slot = function() {
+  this.img = $( '<i>' )
+      .css({
+        display:'inline-block',
+        backgroundImage:'url(images/reelSpin-480x400.png)',
+        width:68,
+        height:200,
+        margin:10
+      })
+      .appendTo( 'body' );
+  this.bgposX = 0;
+  this.bgposY = 0;
+  this.timeout;
+  this.timer = 10;
+}
+Slot.prototype.run = function() {
+  clearTimeout( this.timeout );
+  if ( this.timer > 250 ) return;
+  this.bgposX -= 68.5;
+  if ( this.bgposX < -412 ) {
+    this.bgposX = 0;
+    this.bgposY -= 200;
+  }
+  this.img.css({backgroundPosition:this.bgposX+'px '+this.bgposY+'px'});
+  this.timeout = setTimeout( this.run.bind(this), this.timer+=5 );
+}
+var slot1, slot2, slot3;
+$( document ).ready( function() {
+   slot1 = new Slot();
+   slot2 = new Slot();
+   slot3 = new Slot();
+
+});
+
+$( document ).on( 'click', '#start', function( ) {
+  slot1.run();
+  slot2.run();
+  slot3.run();
+})
+    </script>
+  </head>
+
+  <body>
+    <button id="start">Start</button><br>
+  </body>
+</html>
