@@ -1,5 +1,3 @@
 # Slotmachine
 Javascript Spiel mit CSS Sprites
-
-
-hihi
+- neues Feature: STOP
