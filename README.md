@@ -1,2 +1,2 @@
 # Slotmachine
-JS Spiel mit CSS Sprites
+Javascript Spiel mit CSS Sprites
